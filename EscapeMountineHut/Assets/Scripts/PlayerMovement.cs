@@ -3,14 +3,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float jumpForce = 7f;
-    public LayerMask groundLayer;
-    public Transform groundCheck;
 
     private Rigidbody2D rb;
     private Animator animator;
-    private bool isJumping = false;
-    private bool isGrounded = false;
     private Vector2 moveDir;
 
     void Start()
@@ -21,45 +16,33 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // 방향 입력 받기
+        // 방향 입력 받기 (A/D 또는 좌/우 키, W/S 또는 상/하 키)
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
         moveDir = new Vector2(moveX, moveY).normalized;
 
-        // 지면 체크
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
-
-        // 점프 입력
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) && isGrounded)
+        // 좌우 방향 전환
+        if (moveX > 0)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            isJumping = true;
+            transform.localScale = new Vector3(1, 1, 1); // 오른쪽
         }
-
-        // 점프 종료 체크
-        if (isGrounded && rb.linearVelocity.y <= 0.1f)
+        else if (moveX < 0)
         {
-            isJumping = false;
+            transform.localScale = new Vector3(-1, 1, 1); // 왼쪽 (X축 반전)
         }
 
         // 애니메이션 파라미터 설정
         animator.SetFloat("Speed", moveDir.magnitude);
-        animator.SetBool("IsJumping", isJumping);
     }
 
     void FixedUpdate()
     {
-        // 상하좌우 자유 이동 (점프 중 Y는 유지)
-        Vector2 velocity = rb.linearVelocity;
+        // 상하좌우 자유 이동
+        Vector2 velocity = new Vector2(
+            moveDir.x * moveSpeed,
+            moveDir.y * moveSpeed
+        );
 
-        velocity.x = moveDir.x * moveSpeed;
-
-        // 점프 중이 아닐 때만 수직 이동
-        if (!isJumping )
-        {
-            velocity.y = moveDir.y * moveSpeed;
-        }
-
-        rb.linearVelocity = velocity;
+        rb.linearVelocity = velocity; // linearVelocity → velocity로 수정
     }
 }
