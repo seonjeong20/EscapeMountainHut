@@ -1,0 +1,17 @@
+{
+  "initialLines": [],
+  "subtitles": [
+    {
+      "triggerName": "Door",
+      "lines": [
+        "잠겨있다"
+      ]
+    },
+    {
+      "triggerName": "Door2",
+      "lines": [
+        "돌아갈 필요가 없어.."
+      ]
+    }
+  ]
+}
