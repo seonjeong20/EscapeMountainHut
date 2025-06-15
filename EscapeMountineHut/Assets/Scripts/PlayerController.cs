@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     float jumpForce = 680.0f;
     float walkForce = 70.0f;
     float maxWalkSpeed = 2.0f;
-    public GameObject clearPanel;
 
     void Start()
     {
@@ -62,6 +61,6 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("clear");
-        clearPanel.SetActive(true);
+        SceneManager.LoadScene("Scene_5");
     }
 }

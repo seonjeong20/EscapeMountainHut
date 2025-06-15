@@ -11,7 +11,6 @@ public class TriggerZone : MonoBehaviour
         {
             Debug.Log("desk");
             subtitleManager.StartSubtitleByTrigger(triggerName);
-            gameObject.SetActive(false); // 한 번만 재생
         }
     }
 }
